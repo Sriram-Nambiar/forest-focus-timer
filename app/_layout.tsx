@@ -1,18 +1,22 @@
+import '../src/polyfills';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { useSettingsStore } from '../src/store/settingsStore';
 import { useSessionStore } from '../src/store/sessionStore';
+import { useWalletStore } from '../src/store/walletStore';
 
 export default function RootLayout() {
   const loadSettings = useSettingsStore((s) => s.loadSettings);
   const loadSessions = useSessionStore((s) => s.loadSessions);
+  const loadWalletSettings = useWalletStore((s) => s.loadWalletSettings);
   const darkMode = useSettingsStore((s) => s.darkMode);
 
   useEffect(() => {
     loadSettings();
     loadSessions();
-  }, [loadSettings, loadSessions]);
+    loadWalletSettings();
+  }, [loadSettings, loadSessions, loadWalletSettings]);
 
   return (
     <>
