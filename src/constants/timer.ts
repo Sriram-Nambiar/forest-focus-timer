@@ -7,6 +7,9 @@ export const GRACE_PERIOD_MS = 5000;
 
 export const TIMER_INTERVAL_MS = 1000;
 
+/** Delay to allow Zustand state reset before starting a new timer */
+export const STATE_RESET_DELAY_MS = 50;
+
 export const TREE_STAGES = {
   SEED: 'seed',
   SMALL: 'small',

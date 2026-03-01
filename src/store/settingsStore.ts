@@ -37,19 +37,31 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
 
   setStrictMode: (value: boolean) => {
     set({ strictMode: value });
-    const { strictMode, notificationsEnabled, darkMode } = { ...get(), strictMode: value };
-    safeSetItem(STORAGE_KEYS.SETTINGS, { strictMode, notificationsEnabled, darkMode });
+    const current = get();
+    safeSetItem(STORAGE_KEYS.SETTINGS, {
+      strictMode: value,
+      notificationsEnabled: current.notificationsEnabled,
+      darkMode: current.darkMode,
+    });
   },
 
   setNotificationsEnabled: (value: boolean) => {
     set({ notificationsEnabled: value });
-    const { strictMode, notificationsEnabled, darkMode } = { ...get(), notificationsEnabled: value };
-    safeSetItem(STORAGE_KEYS.SETTINGS, { strictMode, notificationsEnabled, darkMode });
+    const current = get();
+    safeSetItem(STORAGE_KEYS.SETTINGS, {
+      strictMode: current.strictMode,
+      notificationsEnabled: value,
+      darkMode: current.darkMode,
+    });
   },
 
   setDarkMode: (value: boolean) => {
     set({ darkMode: value });
-    const { strictMode, notificationsEnabled, darkMode } = { ...get(), darkMode: value };
-    safeSetItem(STORAGE_KEYS.SETTINGS, { strictMode, notificationsEnabled, darkMode });
+    const current = get();
+    safeSetItem(STORAGE_KEYS.SETTINGS, {
+      strictMode: current.strictMode,
+      notificationsEnabled: current.notificationsEnabled,
+      darkMode: value,
+    });
   },
 }));

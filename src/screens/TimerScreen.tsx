@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS } from '../constants';
+import { COLORS, STATE_RESET_DELAY_MS } from '../constants';
 import { formatTime } from '../utils/helpers';
 import { useTimerStore } from '../store/timerStore';
 import { useSettingsStore } from '../store/settingsStore';
@@ -38,10 +38,9 @@ export default function TimerScreen() {
   const handleStart = useCallback(() => {
     if (status === 'completed' || status === 'failed') {
       resetTimer();
-      // Small delay to ensure state reset before starting
       setTimeout(() => {
         useTimerStore.getState().startTimer();
-      }, 50);
+      }, STATE_RESET_DELAY_MS);
     } else {
       startTimer();
     }

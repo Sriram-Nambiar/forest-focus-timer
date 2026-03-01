@@ -50,10 +50,11 @@ export function useFocusTimer() {
 
   const saveSession = useCallback(
     async (sessionStatus: 'completed' | 'failed') => {
+      const timerState = useTimerStore.getState();
       const session: FocusSession = {
         id: generateId(),
         durationMinutes,
-        startTime: Date.now() - totalSeconds * 1000,
+        startTime: timerState.startTime ?? Date.now(),
         endTime: Date.now(),
         status: sessionStatus,
         treeStage: sessionStatus === 'completed' ? 'full' : getTreeStage(progress),
@@ -61,7 +62,7 @@ export function useFocusTimer() {
       await addSession(session);
       await clearPersistedSession();
     },
-    [durationMinutes, totalSeconds, progress, addSession, clearPersistedSession],
+    [durationMinutes, progress, addSession, clearPersistedSession],
   );
 
   const handleComplete = useCallback(async () => {
