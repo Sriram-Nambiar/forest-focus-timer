@@ -96,7 +96,7 @@ export default function SettingsScreen() {
 
         <View style={styles.footer}>
           <Text style={[styles.footerText, darkMode && styles.subtextDark]}>
-            Forest Focus Timer v1.0.0
+            Seeker Solana Forest – Focus Timer v1.0.0
           </Text>
         </View>
       </ScrollView>
