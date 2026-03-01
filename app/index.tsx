@@ -1,17 +1,6 @@
-import { default as React, default as React } from 'react';
-import { Text } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-const Home = () => {
-  return (
-     <SafeAreaProvider>
-        <SafeAreaView >
-            <Text>Home</Text>
-        </SafeAreaView>
-     </SafeAreaProvider>
-  )
+import { Redirect } from 'expo-router';
+
+export default function Index() {
+  return <Redirect href="/(tabs)" />;
 }
-
-export default Home
-
-
 
