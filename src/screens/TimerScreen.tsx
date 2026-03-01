@@ -1,14 +1,27 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { PublicKey } from '@solana/web3.js';
+import {
+  transact,
+  Web3MobileWallet,
+} from '@solana-mobile/mobile-wallet-adapter-protocol-web3js';
 import { COLORS, STATE_RESET_DELAY_MS } from '../constants';
 import { formatTime } from '../utils/helpers';
 import { useTimerStore } from '../store/timerStore';
 import { useSettingsStore } from '../store/settingsStore';
+import { useWalletStore } from '../store/walletStore';
 import { useFocusTimer } from '../hooks/useFocusTimer';
 import { TreeAnimation } from '../components/TreeAnimation';
 import { DurationSelector } from '../components/DurationSelector';
 import { TimerControls } from '../components/TimerControls';
+import { buildMemoTransaction, confirmTransaction } from '../solana/transactions';
+import { REWARD_COOLDOWN_MS } from '../solana/config';
+
+const APP_IDENTITY = {
+  name: 'Seeker Solana Forest',
+  uri: 'https://forestfocus.app',
+};
 
 export default function TimerScreen() {
   const {
@@ -23,10 +36,68 @@ export default function TimerScreen() {
 
   const { setDuration, startTimer, pauseTimer, resumeTimer, restoreSession } = useTimerStore();
   const darkMode = useSettingsStore((s) => s.darkMode);
+  const walletPublicKey = useWalletStore((s) => s.publicKey);
+  const walletCluster = useWalletStore((s) => s.cluster);
+  const memoPromptedRef = useRef(false);
 
   useEffect(() => {
     restoreSession();
   }, [restoreSession]);
+
+  // Prompt on-chain memo after focus session completion when wallet is connected
+  useEffect(() => {
+    if (status === 'completed' && walletPublicKey && !memoPromptedRef.current) {
+      memoPromptedRef.current = true;
+
+      const now = Date.now();
+      const lastReward = useWalletStore.getState().lastRewardTimestamp;
+      if (now - lastReward < REWARD_COOLDOWN_MS) return;
+
+      Alert.alert(
+        'Record on-chain? 📝',
+        `Write a focus proof memo (${durationMinutes} min) to Solana ${walletCluster}?`,
+        [
+          { text: 'Skip', style: 'cancel' },
+          {
+            text: 'Record',
+            onPress: async () => {
+              try {
+                const payerPubkey = new PublicKey(walletPublicKey);
+                const memoTx = await buildMemoTransaction(payerPubkey, walletCluster, durationMinutes);
+
+                const signedResult = await transact(async (wallet: Web3MobileWallet) => {
+                  await wallet.authorize({
+                    identity: APP_IDENTITY,
+                    cluster: walletCluster as 'devnet' | 'mainnet-beta',
+                  });
+                  return await wallet.signAndSendTransactions({ transactions: [memoTx] });
+                });
+
+                if (signedResult?.[0]) {
+                  const sig = typeof signedResult[0] === 'string'
+                    ? signedResult[0]
+                    : Buffer.from(signedResult[0] as Uint8Array).toString('base64');
+
+                  useWalletStore.getState().setLastTxSignature(sig);
+                  useWalletStore.getState().setLastRewardTimestamp(Date.now());
+
+                  const confirmed = await confirmTransaction(sig, walletCluster);
+                  if (confirmed) {
+                    Alert.alert('Recorded! ✅', 'Focus proof written on-chain.');
+                  }
+                }
+              } catch {
+                // User cancelled or error – silently ignore for UX
+              }
+            },
+          },
+        ],
+      );
+    }
+    if (status === 'idle') {
+      memoPromptedRef.current = false;
+    }
+  }, [status, walletPublicKey, walletCluster, durationMinutes]);
 
   const handleSelectDuration = useCallback(
     (minutes: number) => {
