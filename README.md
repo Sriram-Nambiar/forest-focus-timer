@@ -1,54 +1,141 @@
-<<<<<<< HEAD
-# forest-focus-timer
-=======
-# Welcome to your Expo app 👋
+# 🌲 Forest Focus
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A gamified productivity app built with **React Native (Expo)** for the
+**Seeker Mobile Phone** at the **Monolith Hackathon**.
 
-## Get started
+Stay focused. Grow your forest.\
+Get distracted. Watch it die.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🚀 Overview
 
-2. Start the app
+Forest Focus is a minimal, distraction-aware productivity app where:
 
-   ```bash
-   npx expo start
-   ```
+- 🌱 A tree grows when you stay focused
+- 🥀 The tree dies if you switch apps or leave the session
+- 📊 Your focus history builds a visual forest
 
-In the output, you'll find options to open the app in a
+Instead of tracking boring streaks, the app visualizes your productivity
+as a growing (or dying) forest.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## ✨ Features
 
-## Get a fresh project
+### ⏳ Focus Timer
 
-When you're ready, run:
+- 15m, 25m, 45m presets
+- Custom duration option
+- Live countdown
+- Pause option
+- Give Up option
+- Visual growth indicator
+
+---
+
+### 🌲 Gamified Focus System
+
+- Tree grows during active focus session
+- Tree dies if user switches apps or gets distracted
+- Real consequence-driven productivity
+
+---
+
+### 📊 My Forest Dashboard
+
+- 🌳 Trees Grown
+- 🥀 Trees Died
+- 🌲 Total Sessions
+- Session history with timestamps
+- Clear/reset forest option
+
+---
+
+### 🌗 Theming
+
+- Light Mode
+- Dark Mode
+- Clean forest-inspired green aesthetic
+- Minimal and distraction-free UI
+
+---
+
+### 👛 Solana Wallet Integration
+
+- Integrated Solana wallet support
+- Built for Web3-native mobile experience
+- Wallet screen included for future reward/token mechanics
+- Foundation for on-chain incentives & focus rewards
+
+---
+
+## 🛠 Tech Stack
+
+- React Native
+- Expo
+- Solana Wallet Integration
+- JavaScript / TypeScript
+- Async Storage
+
+---
+
+## 📱 Built For
+
+- Seeker Mobile Phone
+- Monolith Hackathon
+
+---
+
+## 🧠 Concept
+
+Most productivity apps track time.
+
+Forest Focus tracks consequences.
+
+If you stay in the app → your tree grows.\
+If you leave → your tree dies.
+
+Behavioral design meets minimal UX.
+
+---
+
+## 🔮 Future Improvements
+
+- On-chain rewards for completed sessions
+- NFT-based forest trees
+- Streak multipliers
+- Community focus rooms
+- Real productivity analytics
+- Tokenized accountability system
+
+---
+
+## ⚙️ Installation
 
 ```bash
-npm run reset-project
+# Clone the repo
+git clone https://github.com/your-username/forest-focus.git
+
+# Go into the directory
+cd forest-focus
+
+# Install dependencies
+npm install
+
+# Start Expo
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🙏 Acknowledgements
 
-To learn more about developing your project with Expo, look at the following resources:
+Special thanks to **Blunt Brain** for guidance and conceptual refinement
+during development.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 📜 License
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
->>>>>>> f241f65 (Initial commit)
+MIT License
